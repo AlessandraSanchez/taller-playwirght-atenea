@@ -1,0 +1,22 @@
+{
+  "name": "taller-playwirght-atenea",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlessandraSanchez/taller-playwirght-atenea.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlessandraSanchez/taller-playwirght-atenea/issues"
+  },
+  "homepage": "https://github.com/AlessandraSanchez/taller-playwirght-atenea#readme",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.54.1",
+    "@types/node": "^24.1.0"
+  }
+}
