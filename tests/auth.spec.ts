@@ -58,4 +58,38 @@ test('CP-4 Intento de Login con Email sin Contraseña' , async ({ page }) => {
     await expect(page).toHaveURL('http://localhost:3000/login');
     });
 
+    test('CP-5 Intento de login con formato de Email incorrecto' , async ({ page }) => {       
+    paginaLogin= new PaginaLogin(page);
+    await paginaLogin.visitarPaginaLogin();
+    await paginaLogin.completarFormularioLogin("testinginvalido", "123contrasena");
+    await paginaLogin.hacerclickBotonLogin();
+    await page.waitForTimeout(5000);
+    const emailInput = page.locator('input[type="email"]');
+      const validationMessage = await emailInput.evaluate(el => (el as HTMLInputElement).validationMessage);
+console.log(validationMessage); // Muestra el mensaje nativo del navegador
+  expect(validationMessage).toBe('Please include an \'@\' in the email address. \'testinginvalido\' is missing an \'@\'.');
+
+    });
+
+    test('CP-6 Verificación del enlace de Registro' , async ({ page }) => {       
+    paginaLogin= new PaginaLogin(page);
+    await paginaLogin.visitarPaginaLogin();
+    await paginaLogin.hacerClickEnlaceRegistro();
+    await expect(page).toHaveURL('http://localhost:3000/signup');
+    });
+
+    test('CP-7 Cierre de sesión y Protección de Rutas' , async ({ page }) => {       
+    paginaLogin= new PaginaLogin(page);
+    await paginaLogin.visitarPaginaLogin();
+    await paginaLogin.logueoExitoso("Alessandra.Sanchez704@example.com","Contraseña123");
+    paginaDashboard= new PaginaDashboard(page); 
+    await page.waitForTimeout(5000);
+    await paginaDashboard.hacerClickBotonCerrarSesion();
+    await expect(page).toHaveURL('http://localhost:3000/login');
+    await paginaDashboard.visitar();
+    await expect(page).toHaveURL('http://localhost:3000/login');
+    await page.waitForTimeout(5000);
+  
+
+    });
 

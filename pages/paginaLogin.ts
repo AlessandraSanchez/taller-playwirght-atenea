@@ -61,4 +61,8 @@ export class PaginaLogin{
         await this.hacerclickBotonLogin();
         await expect(this.page.getByText(this.loginFallido)).toBeVisible();
     }
+
+    async hacerClickEnlaceRegistro(){
+        await this.LinkRegistrarse.click();
+    }
 }       
