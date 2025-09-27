@@ -3,11 +3,24 @@ import { PaginaRegistro } from '../pages/paginaRegistro';
 
 let paginaRegistro: PaginaRegistro;
 
-test('TC1 - registro exitoso ', async ({ page }) => {
+//Se ejecuta antes de cada test
+test.beforeEach(async ({ page }) => {
+
+   /*Usos comununes son:
+  navegar a una pagina inicial del feature
+  inicializar objetos de pagina
+  configurar datos de prueba
+  Autenticar usuario
+  Limpiar cookies o almacenamiento local
+  */
   paginaRegistro= new PaginaRegistro(page);
+  await paginaRegistro.visitarPaginaRegistro();
+})
+
+
+test('TC1 - registro exitoso ', async ({ page }) => {
 const emailAleatorio= 'Alessandra.Sanchez'+ Math.floor(Math.random()*1000)+ '@example.com';
 
-  await paginaRegistro.visitarPaginaRegistro();
   await paginaRegistro.registrarUsuario(
     "Alessandra",
     "Sánchez", 
@@ -17,8 +30,6 @@ const emailAleatorio= 'Alessandra.Sanchez'+ Math.floor(Math.random()*1000)+ '@ex
 });
 
 test('TC2 - registro no exitoso, email existente ', async ({ page }) => {
-  paginaRegistro= new PaginaRegistro(page);
-  await paginaRegistro.visitarPaginaRegistro();
 
   await paginaRegistro.registrarUsuario(
     "Alessandra",
@@ -30,9 +41,7 @@ test('TC2 - registro no exitoso, email existente ', async ({ page }) => {
 
 test('TC3 - verificar redireccionamiento a login despues de crear un usuario', async ({ page }) => {
 
-  paginaRegistro= new PaginaRegistro(page);
   const  emailAleatorio= 'Alessandra.Sanchez'+ Math.floor(Math.random()*1000)+ '@example.com';
-  await paginaRegistro.visitarPaginaRegistro();
 
   await paginaRegistro.registrarUsuario(
     "Alessandra",

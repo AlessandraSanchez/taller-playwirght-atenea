@@ -89,7 +89,6 @@ console.log(validationMessage); // Muestra el mensaje nativo del navegador
     await paginaDashboard.visitar();
     await expect(page).toHaveURL('http://localhost:3000/login');
     await page.waitForTimeout(5000);
-  
 
     });
 
