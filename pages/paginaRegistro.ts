@@ -6,11 +6,12 @@ export class PaginaRegistro{
     // Siempre necesitamos el page para interactuar con la pagina
     readonly page: Page;
     // Definimos los localizadores que vamos a usar
-    readonly nombreInput: Locator;
-    readonly apellidoInput: Locator; 
+    readonly firstNameInput: Locator;
+    readonly lastNameInput: Locator; 
     readonly emailInput: Locator;
-    readonly contrasenaInput: Locator;
-    readonly botonRegistrarse: Locator;
+    readonly passwordInput: Locator;
+    readonly registerButton: Locator;
+    readonly loginButton: Locator;
 
     //Variables de texto para mensajes
     readonly mensajeDeCreacionDeCuenta: string;
@@ -21,11 +22,12 @@ export class PaginaRegistro{
         //Asignamos el page a la propiedad de la clase
         this.page = page;
         //Definimos el localizador para el campo de nombre
-        this.nombreInput = page.getByRole('textbox',{name: 'Nombre'});
-        this.apellidoInput = page.locator('[name="lastName"]');
+        this.firstNameInput = page.getByRole('textbox',{name: 'Nombre'});
+        this.lastNameInput = page.locator('[name="lastName"]');
         this.emailInput= page.getByRole('textbox',{name: 'Correo electrónico'});
-        this.contrasenaInput= page.getByRole('textbox',{name: 'Contraseña'});
-        this.botonRegistrarse= page.getByTestId('boton-registrarse');
+        this.passwordInput= page.getByRole('textbox',{name: 'Contraseña'});
+        this.registerButton= page.getByTestId('boton-registrarse');
+        this.loginButton= page.getByTestId('boton-login-header-signup');
         //variables de texto
         this.mensajeDeCreacionDeCuenta= "Registro exitoso!"
         this.mensajeEmailUtilizado= "Email already in use";
@@ -34,22 +36,27 @@ export class PaginaRegistro{
 
     async visitarPaginaRegistro() {
         await this.page.goto('http://localhost:3000/signup');
-        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
     }
 
     async completarFormularioRegistro(nombre: string, apellido: string, email: string, contrasena: string) {
-        await this.nombreInput.fill(nombre);
-        await this.apellidoInput.fill(apellido);
+        await this.firstNameInput.fill(nombre);
+        await this.lastNameInput.fill(apellido);
         await this.emailInput.fill(email);
-        await this.contrasenaInput.fill(contrasena);
+        await this.passwordInput.fill(contrasena);
     }
 
     async hacerClickEnBotonRegistro() {
-        await this.botonRegistrarse.click();
+        await this.registerButton.click();
     }
 
     async registrarUsuario(nombre: string, apellido: string, email: string, contrasena: string) {
         await this.completarFormularioRegistro(nombre, apellido, email, contrasena);
         await this.hacerClickEnBotonRegistro();
     }
+
+    async irAPaginaLogin() {
+        await this.loginButton.click();
+    }
+    
 }
